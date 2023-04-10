@@ -1,0 +1,1 @@
+stored xss, dia blank dan masuk ke mysql. apapun diinput pasti ditampilin, sedangkan ketika di inject pake xss itu dia blank, jadi scriptnya itu di stored ke mysql
