@@ -1,10 +1,6 @@
 <?php
 // Menghubungkan ke database
-$host = "localhost";
-$user = "root";
-$password = "ikantongkol";
-$database = "tugasakhir";
-$koneksi = mysqli_connect($host, $user, $password, $database);
+$database = new SQLite3('tugasakhir.db');
 
 // Menangkap data yang dikirim dari form login
 $username = $_POST['username'];
@@ -12,15 +8,18 @@ $password = $_POST['password'];
 
 // Menyeleksi data user dari database
 $query = "SELECT * FROM mahasiswa WHERE username = '$username' AND password = '$password'";
-$result = mysqli_query($koneksi, $query);
+$result = $database->query($query);
 
 // Menghitung jumlah data yang ditemukan
-$count = mysqli_num_rows($result);
+$count = 0;
+while ($row = $result->fetchArray()) {
+  $count++;
+}
 
 // Mengecek apakah data ditemukan
 if ($count == 1) {
-	echo "Login berhasil!";
+  echo "Login berhasil!";
 } else {
-	echo "Login gagal!";
+  echo "Login gagal!";
 }
 ?>
