@@ -18,10 +18,19 @@ while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
 
 // Mengecek apakah data ditemukan
 if ($count == 1) {
-    echo "Login berhasil!";
+    $message = "Login berhasil!";
 } else {
-    echo "Login gagal!";
+    $message = "Login gagal!";
 }
+
+// Menghitung panjang pesan
+$contentLength = strlen($message);
+
+// Menambahkan header "Content-Length" ke dalam respons HTTP
+header("Content-Length: $contentLength");
+
+// Menampilkan pesan ke dalam body respons
+echo $message;
 
 // Menutup koneksi ke database
 $database->close();

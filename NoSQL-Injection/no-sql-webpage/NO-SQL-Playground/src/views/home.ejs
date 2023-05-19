@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('header') %>
+
+    <body>
+        <%- include('navbar') %>
+            <section class="section">
+                <div class="container">
+                    <div class="columns is-centered">
+                        <div class="column content has-text-centered">
+                            <% if (session.user.isAdmin) { %>
+                                <h1 class="title is-1">Welcome Admin!</h1>
+                                <h1 class="title is-1">Here your flag: flag{this is the flag}</h1>
+                                <% } else { %>
+                                    <h1 class="title is-1">Welcome <%= session.user.username %>!</h1>
+                                    <% } %>
+                                        <p class="subtitle is-3">Enjoy your stay on our website.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <%- include('footer') %>
+    </body>
+
+</html>

@@ -1,0 +1,8 @@
+curl -i --data "username=user1&password=password1" http://localhost:8007/index.php
+HTTP/1.1 200 OK
+Host: localhost:8007
+Date: Fri, 19 May 2023 08:49:52 GMT
+Connection: close
+X-Powered-By: PHP/8.1.2-1ubuntu2.11
+Content-Length: 15
+Content-type: text/html; charset=UTF-8

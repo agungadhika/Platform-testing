@@ -1,0 +1,19 @@
+services:
+  mongo:
+    image: mongo:latest
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: admin
+    networks:
+      - mongo-net
+  app:
+    build: ./src
+    environment:
+      - PORT=80
+    ports:
+      - 80:80
+    networks:
+      - mongo-net
+
+networks:
+  mongo-net:

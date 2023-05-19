@@ -1,0 +1,1 @@
+curl -i http://localhost:8005/index.php?username=user1&password=password1
