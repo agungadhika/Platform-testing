@@ -2,36 +2,59 @@
 // Membuat koneksi ke database SQLite3
 $database = new SQLite3('tugasakhir.db');
 
-// Menangkap data yang dikirim dari form login
-$username = $_GET['username'];
-$password = $_GET['password'];
+// Inisialisasi variabel pesan
+$message = '';
 
-// Mengeksekusi query untuk menyeleksi data user dari database
-$query = "SELECT * FROM mahasiswa WHERE username = '$username' AND password = '$password'";
-$result = $database->query($query);
+if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['username']) && isset($_GET['password'])) {
+    // Menangkap data yang dikirim dari form login
+    $username = $_GET['username'];
+    $password = $_GET['password'];
 
-// Menghitung jumlah data yang ditemukan
-$count = 0;
-while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
-    $count++;
+    // Mengeksekusi query untuk menyeleksi data user dari database
+    $query = "SELECT * FROM mahasiswa WHERE username = '$username' AND password = '$password'";
+    $result = $database->query($query);
+
+    // Mengecek apakah query berhasil dieksekusi
+    if ($result) {
+        // Menghitung jumlah data yang ditemukan
+        $count = 0;
+        while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
+            $count++;
+        }
+
+        // Mengecek apakah data ditemukan
+        if ($count == 1) {
+            $message = "Login berhasil!";
+        } else {
+            $message = "Login gagal!";
+        }
+    } else {
+        // Jika terjadi kesalahan dalam eksekusi query
+        $error = $database->lastErrorMsg();
+        $message = "Kesalahan query: $error";
+    }
+
+    // Menutup koneksi ke database
+    $database->close();
 }
-
-// Mengecek apakah data ditemukan
-if ($count == 1) {
-    $message = "Login berhasil!";
-} else {
-    $message = "Login gagal!";
-}
-
-// Menghitung panjang pesan
-$contentLength = strlen($message);
-
-// Menambahkan header "Content-Length" ke dalam respons HTTP
-header("Content-Length: $contentLength");
-
-// Menampilkan pesan ke dalam body respons
-echo $message;
-
-// Menutup koneksi ke database
-$database->close();
 ?>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Form Login</title>
+</head>
+<body>
+    <h1>Form Login</h1>
+    <?php if (!empty($message)): ?>
+        <p><?php echo $message; ?></p>
+    <?php endif; ?>
+    <form method="get" action="<?php echo $_SERVER['PHP_SELF']; ?>">
+        <label>Username:</label>
+        <input type="text" name="username" required><br><br>
+        <label>Password:</label>
+        <input type="password" name="password" required><br><br>
+        <input type="submit" value="Login">
+    </form>
+</body>
+</html>
